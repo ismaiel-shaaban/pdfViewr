@@ -68,8 +68,9 @@ export default function Home() {
 
       // Set the canvas width to 400px while keeping the aspect ratio
       const canvasWrapper = document.createElement("div");
-      canvasWrapper.style.width = "400px";
-      canvasWrapper.style.height = "auto"; // Maintain the aspect ratio automatically
+      canvasWrapper.style.width = "100%";  // Set width to 100% of the container/screen
+      canvasWrapper.style.maxWidth = "100vw"; // Ensure it doesn't exceed the screen width
+      canvasWrapper.style.height = "auto";  // Maintain aspect ratio
 
       // Adjust the canvas size by appending the original canvas into the wrapper
       canvas.style.width = "100%"; // This will scale the canvas to fit within 400px
