@@ -18,7 +18,7 @@ export default function Home() {
     const loadPdf = async () => {
       try {
         console.log("Loading PDF from: /files/menue.pdf");
-        const pdfUrl = "/files/menu.pdf";
+        const pdfUrl = "/files/menue_compressed.pdf";
         const loadingTask = pdfjsLib.getDocument(pdfUrl);
 
         loadingTask.promise
@@ -51,7 +51,7 @@ export default function Home() {
     try {
       const page = await pdf.getPage(pageNum);
       console.log(`Rendering page ${pageNum}`);
-      const viewport = page.getViewport({ scale: 0.7 });
+      const viewport = page.getViewport({ scale: 1 });
 
       const canvas = document.createElement("canvas");
       canvas.height = viewport.height;
@@ -105,7 +105,12 @@ export default function Home() {
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-between">
-      {loading && <p>جاري التحميل ...</p>}
+      {loading && 
+      <div className="w-full h-[100vh] flex justify-center items-center">
+        <img className="w-[500px]" src={'/files/WhatsApp Image 2024-10-01 at 1.04.25 AM.jpeg'} alt=""/>
+      </div>
+      
+      }
       {/* {error && <p>{error}</p>} */}
   
       <div
