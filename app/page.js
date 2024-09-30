@@ -18,7 +18,7 @@ export default function Home() {
     const loadPdf = async () => {
       try {
         console.log("Loading PDF from: /files/menue.pdf");
-        const pdfUrl = "/files/menue.pdf";
+        const pdfUrl = "/files/menue_compressed.pdf";
         const loadingTask = pdfjsLib.getDocument(pdfUrl);
 
         loadingTask.promise
@@ -29,7 +29,7 @@ export default function Home() {
 
             // Render the first page immediately
             renderPage(pdf, 1);
-            setPagesRendered(1);
+            setPagesRendered(2);
             setLoading(false);
           })
           .catch((err) => {
