@@ -18,7 +18,7 @@ export default function Home() {
     const loadPdf = async () => {
       try {
         console.log("Loading PDF from: /files/menue.pdf");
-        const pdfUrl = "/files/menuee.pdf";
+        const pdfUrl = "/files/menu.pdf";
         const loadingTask = pdfjsLib.getDocument(pdfUrl);
 
         loadingTask.promise
@@ -51,7 +51,7 @@ export default function Home() {
     try {
       const page = await pdf.getPage(pageNum);
       console.log(`Rendering page ${pageNum}`);
-      const viewport = page.getViewport({ scale: .7 });
+      const viewport = page.getViewport({ scale: 2 });
 
       const canvas = document.createElement("canvas");
       canvas.height = viewport.height;
@@ -66,8 +66,19 @@ export default function Home() {
       await page.render(renderContext).promise;
       console.log(`Page ${pageNum} rendered successfully`);
 
+      // Set the canvas width to 400px while keeping the aspect ratio
+      const canvasWrapper = document.createElement("div");
+      canvasWrapper.style.width = "400px";
+      canvasWrapper.style.height = "auto"; // Maintain the aspect ratio automatically
+
+      // Adjust the canvas size by appending the original canvas into the wrapper
+      canvas.style.width = "100%"; // This will scale the canvas to fit within 400px
+      canvas.style.height = "auto";
       // Append the canvas to the container
-      containerRef.current.appendChild(canvas);
+      canvasWrapper.appendChild(canvas);
+    
+      // Append the wrapper to the container (instead of appending just the canvas)
+      containerRef.current.appendChild(canvasWrapper);
       console.log(`Canvas for page ${pageNum} appended to container`);
     } catch (err) {
       console.error(`Error rendering page ${pageNum}:`, err);
@@ -105,18 +116,18 @@ export default function Home() {
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-between">
-      {loading && 
-      <div className="w-full h-[100vh] flex justify-center items-center">
-        <img className="w-[500px]" src={'/files/WhatsApp Image 2024-10-01 at 1.04.25 AM.jpeg'} alt=""/>
-      </div>
-      
+      {loading &&
+        <div className="w-full h-[100vh] flex justify-center items-center">
+          <img className="w-[500px]" src={'/files/WhatsApp Image 2024-10-01 at 1.04.25 AM.jpeg'} alt="" />
+        </div>
+
       }
       {/* {error && <p>{error}</p>} */}
-  
+
       <div
         ref={containerRef}
         className=" overflow-y-auto w-full flex-col items-center"
-        style={{ height: "100vh"}}
+        style={{ height: "100vh" }}
       ></div>
     </main>
   );
