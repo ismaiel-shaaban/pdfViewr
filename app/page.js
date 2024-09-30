@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
-import * as pdfjsLib from "pdfjs-dist/build/pdf"; 
+import * as pdfjsLib from "pdfjs-dist/build/pdf";
 import "pdfjs-dist/web/pdf_viewer.css";
 
 pdfjsLib.GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjsLib.version}/pdf.worker.min.js`;
@@ -27,9 +27,9 @@ export default function Home() {
             setPdfDoc(pdf);
             setTotalPages(pdf.numPages);
 
-            // Render the first page immediately
-            renderPage(pdf, 1);
-            setPagesRendered(2);
+            // Render the first three pages immediately
+            renderPages(pdf, 1, 3);
+            setPagesRendered(4);
             setLoading(false);
           })
           .catch((err) => {
@@ -51,11 +51,11 @@ export default function Home() {
     try {
       const page = await pdf.getPage(pageNum);
       console.log(`Rendering page ${pageNum}`);
-      const viewport = page.getViewport({ scale: .7 });
+      const viewport = page.getViewport({ scale: 0.7 });
 
       const canvas = document.createElement("canvas");
       canvas.height = viewport.height;
-      canvas.width = viewport.width ;
+      canvas.width = viewport.width;
 
       const context = canvas.getContext("2d");
       const renderContext = {
@@ -74,17 +74,23 @@ export default function Home() {
     }
   };
 
+  // Function to render multiple pages
+  const renderPages = async (pdf, start, end) => {
+    for (let i = start; i <= end; i++) {
+      await renderPage(pdf, i);
+    }
+  };
+
   const handleScroll = () => {
-    if (pdfDoc && pagesRendered < totalPages) {
+    if (pdfDoc && pagesRendered <= totalPages) {
       const container = containerRef.current;
       if (
         container.scrollTop + container.clientHeight >=
         container.scrollHeight - 100
       ) {
         console.log("Scroll event detected");
-        const nextPage = pagesRendered + 1;
-        renderPage(pdfDoc, nextPage);
-        setPagesRendered(nextPage);
+        renderPage(pdfDoc, pagesRendered);
+        setPagesRendered((prev) => prev + 1);
       }
     }
   };
@@ -99,8 +105,8 @@ export default function Home() {
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-between">
-      
       {loading && <p>جاري التحميل ...</p>}
+      {/* {error && <p>{error}</p>} */}
   
       <div
         ref={containerRef}
