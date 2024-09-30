@@ -51,7 +51,7 @@ export default function Home() {
     try {
       const page = await pdf.getPage(pageNum);
       console.log(`Rendering page ${pageNum}`);
-      const viewport = page.getViewport({ scale: 1 });
+      const viewport = page.getViewport({ scale: .9 });
 
       const canvas = document.createElement("canvas");
       canvas.height = viewport.height;
