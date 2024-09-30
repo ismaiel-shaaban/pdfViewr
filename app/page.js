@@ -18,7 +18,7 @@ export default function Home() {
     const loadPdf = async () => {
       try {
         console.log("Loading PDF from: /files/menue.pdf");
-        const pdfUrl = "/files/menue_compressed.pdf";
+        const pdfUrl = "/files/menuee.pdf";
         const loadingTask = pdfjsLib.getDocument(pdfUrl);
 
         loadingTask.promise
