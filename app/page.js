@@ -18,7 +18,7 @@ export default function Home() {
     const loadPdf = async () => {
       try {
         console.log("Loading PDF from: /files/menue.pdf");
-        const pdfUrl = "/files/menue_compressed.pdf";
+        const pdfUrl = "/files/menue.pdf";
         const loadingTask = pdfjsLib.getDocument(pdfUrl);
 
         loadingTask.promise
@@ -51,7 +51,7 @@ export default function Home() {
     try {
       const page = await pdf.getPage(pageNum);
       console.log(`Rendering page ${pageNum}`);
-      const viewport = page.getViewport({ scale: .9 });
+      const viewport = page.getViewport({ scale: 1 });
 
       const canvas = document.createElement("canvas");
       canvas.height = viewport.height;
